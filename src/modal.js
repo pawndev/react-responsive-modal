@@ -15,6 +15,10 @@ class Modal extends Component {
     noScroll.on();
   }
 
+  static unblockScroll() {
+    noScroll.off();
+  }
+
   shouldClose = null;
 
   state = {
@@ -62,7 +66,7 @@ class Modal extends Component {
   handleClose = () => {
     modalManager.remove(this);
     if (this.props.blockScroll) {
-      this.unblockScroll();
+      Modal.unblockScroll();
     }
     document.removeEventListener('keydown', this.handleKeydown);
   };
@@ -125,14 +129,7 @@ class Modal extends Component {
     this.setState({ showPortal: false });
 
     if (this.props.blockScroll) {
-      this.unblockScroll();
-    }
-  };
-
-  unblockScroll = () => {
-    // Restore the scroll only if there is no modal on the screen
-    if (modalManager.modals().length === 0) {
-      noScroll.off();
+      Modal.unblockScroll();
     }
   };
 
